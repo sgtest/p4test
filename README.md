@@ -8,7 +8,7 @@ for all licensing information.
 Outside of a C/C++ compiler you will need Jam (Just Another Make), a build system
 written by Christopher Seiwald. A source bundle can be found here: 
 
-    https://swarm.workshop.perforce.com/files/public/jam/jam-2.6.rc1.zip
+    https://swarm.workshop.perforce.com/projects/perforce-software-jam/download/main/jam-2.6.zip
 
 
 ## To build the Perforce command line interface
