@@ -25,6 +25,10 @@ To set any options in Jam use the '-s' flag. For the example above you would run
 
     jam -sOSVER=106 p4
 
+To build on Cygwin run:
+
+    jam -sOS=CYGWIN
+
 Builds will be placed in a directory called 'p4-bin/bin.[OS][OSVER]' at the same level as your p4 directory.
 
 
