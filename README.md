@@ -29,6 +29,10 @@ To build on Cygwin run:
 
     jam -sOS=CYGWIN
 
+To build on Windows you will need to disable use of Smartheap:
+
+    jam -sSMARTHEAP=0 p4
+
 Builds will be placed in a directory called 'p4-bin/bin.[OS][OSVER]' at the same level as your p4 directory.
 
 
