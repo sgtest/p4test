@@ -793,6 +793,24 @@ Rpc::InvokeOne( const char *opName )
 
 	transport->Send( sendBuffer->GetBuffer(), &re, &se );
 
+	if( se.Test() && se.CheckId( MsgRpc::TooBig ) )
+	{
+	    AssertLog.Report( &se );
+
+	    sendBuffer->Clear();
+	    StrBufDict errorDict;
+	    se.Marshall1( errorDict );
+	    se.Clear();
+
+	    int j = 0;
+	    StrRef var, val;
+	    while( errorDict.GetVar( j++, var, val ) )
+	        sendBuffer->SetVar( var, val );
+
+	    sendBuffer->SetVar( P4Tag::v_func, StrRef( "client-Message" ) );
+	    transport->Send( sendBuffer->GetBuffer(), &re, &se );
+	}
+
 	// time tracking
 	sendTime += timer->Time();
 

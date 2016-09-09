@@ -73,4 +73,7 @@ MEM_ENTRY1 MEM_SIZET MEM_ENTRY MemPoolSize( MEM_POOL )
 MEM_ENTRY1 MEM_SIZET MEM_ENTRY MemPoolShrink( MEM_POOL )
 { return( (MEM_BOOL) 0 ); }
 
+MEM_ENTRY1 MEM_VERSION MEM_ENTRY MemVersion( void )
+{ return ( 1 ); }
+
 # endif // USE_SMARTHEAP && !OS_NTIA64

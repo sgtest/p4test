@@ -374,6 +374,7 @@ class SpecDataTable : public SpecData {
 
 	int		privateTable;
 	StrDict		*table;
+	StrBuf		empty;
 
 } ;
 

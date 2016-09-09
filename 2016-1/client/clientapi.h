@@ -4,6 +4,9 @@
  * This file is part of Perforce - the FAST SCM System.
  */
 
+# ifndef P4_CLIENTAPI_H
+# define P4_CLIENTAPI_H
+
 # include "stdhdrs.h"
 
 # include "strbuf.h"
@@ -262,3 +265,5 @@ class ClientApi : public StrDict {
 	ClientUser	*ui;		// the old way
 
 } ;
+
+# endif

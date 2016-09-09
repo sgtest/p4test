@@ -138,7 +138,6 @@ class MsgServer {
 	static ErrorId LogEstimates;
 	static ErrorId Unlicensed;
 	static ErrorId TrackCommand;
-	static ErrorId NoValidLicense;
 	static ErrorId MaxLicensedFiles;
 	static ErrorId MaxUnLicensedFiles;
 	static ErrorId NoCentralLicense;
@@ -721,6 +720,8 @@ class MsgServer {
 	static ErrorId LdapNoAttrConfig;
 	static ErrorId LdapNoAttrsFound;
 
+	static ErrorId LicenceInputOnly;
+
 	static ErrorId SwitchBranchData;
 	static ErrorId SwitchBranchDataMatch;
 	static ErrorId SwitchFilesOpen;
@@ -800,4 +801,5 @@ class MsgServer {
 	static ErrorId FetchCryptoError; // DEPRECATED used in 15.1-2
 	static ErrorId PullCommandRunning; // DEPRECATED - use CommandRunning instead
 	static ErrorId JcopyCommandRunning; // DEPRECATED - use CommandRunning instead
+	static ErrorId NoValidLicense;
 };

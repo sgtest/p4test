@@ -610,6 +610,7 @@ ErrorId MsgDm::ProtectsData            = { ErrorOf( ES_DM, 440, E_INFO, EV_NONE,
 ErrorId MsgDm::ProtectsMaxData         = { ErrorOf( ES_DM, 452, E_INFO, EV_NONE, 1 ), "%perm%" };
 ErrorId MsgDm::ProtectsEmpty           = { ErrorOf( ES_DM, 456, E_FAILED, EV_ADMIN, 0 ), "Protections table is empty." } ;
 ErrorId MsgDm::ProtectsNoSuper         = { ErrorOf( ES_DM, 469, E_FAILED, EV_ADMIN, 0 ), "Can't delete last valid 'super' entry from protections table." } ;
+ErrorId MsgDm::ProtectsNotCompatible   = { ErrorOf( ES_DM, 587, E_FAILED, EV_ADMIN, 0 ), "Helix P4Admin tool not compatible with '##' comments in protection table.\nIf you wish to continue using Helix P4Admin to administer the protection table please remove all '##' comments." } ;
 
 ErrorId MsgDm::PurgeSnapData           = { ErrorOf( ES_DM, 308, E_INFO, EV_NONE, 4 ), "%depotFile%%depotRev% - copy from %lbrFile% %lbrRev%" } ;
 ErrorId MsgDm::PurgeDeleted            = { ErrorOf( ES_DM, 309, E_INFO, EV_NONE, 6 ), "Deleted [%onHave% client ][%onLabel% label ][%onInteg% integration ][%onWorking% opened ][%onRev% revision ][and added %synInteg% integration ]record(s)." } ;
@@ -892,7 +893,7 @@ ErrorId MsgDm::CommandCancelled        = { ErrorOf( ES_DB, 62, E_FAILED, EV_COMM
 ErrorId MsgDm::MaxResults              = { ErrorOf( ES_DB, 32, E_FAILED, EV_ADMIN, 1 ), "Request too large (over %maxResults%); see '%'p4 help maxresults'%'." } ;
 ErrorId MsgDm::MaxScanRows             = { ErrorOf( ES_DB, 61, E_FAILED, EV_ADMIN, 1 ), "Too many rows scanned (over %maxScanRows%); see '%'p4 help maxscanrows'%'." } ;
 ErrorId MsgDm::MaxLockTime             = { ErrorOf( ES_DM, 453, E_FAILED, EV_ADMIN, 1 ), "Operation took too long (over %maxLockTime% seconds); see '%'p4 help maxlocktime'%'." } ;
-ErrorId MsgDm::MaxOpenFiles            = { ErrorOf( ES_DM, 453, E_FAILED, EV_ADMIN, 1 ), "Opening too many files (over %maxOpenFiles%); see '%'p4 help maxopenfiles'%'." } ;
+ErrorId MsgDm::MaxOpenFiles            = { ErrorOf( ES_DM, 500, E_FAILED, EV_ADMIN, 1 ), "Opening too many files (over %maxOpenFiles%); see '%'p4 help maxopenfiles'%'." } ;
 ErrorId MsgDm::UnknownReplicationMode  = { ErrorOf( ES_DM, 611, E_FAILED, EV_FAULT, 1 ), "Unknown replication mode '%mode%'." } ;
 ErrorId MsgDm::UnknownReplicationTarget = { ErrorOf( ES_DM, 612, E_FAILED, EV_FAULT, 1 ), "Unknown replication target '%target%'." } ;
 

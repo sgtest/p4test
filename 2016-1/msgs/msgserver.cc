@@ -22,7 +22,7 @@
  * When adding a new error make sure its greater than the current high
  * value and update the following number:
  *
- * Current high value for a MsgServer error code is: 869
+ * Current high value for a MsgServer error code is: 870
  */
 # include <error.h>
 # include <errornum.h>
@@ -155,7 +155,6 @@ ErrorId MsgServer::LogCommand          = { ErrorOf( ES_SERVER, 55, E_INFO, EV_NO
 ErrorId MsgServer::LogEstimates        = { ErrorOf( ES_SERVER, 632, E_INFO, EV_NONE, 5 ), "Server network estimates: files added/updated/deleted=%filesAdded%/%filesUpdated%/%filesDeleted%, bytes added/updated=%bytesAdded%/%bytesUpdated%" } ;
 ErrorId MsgServer::Unlicensed          = { ErrorOf( ES_SERVER, 56, E_FAILED, EV_ADMIN, 0 ), "Warning! You have exceeded the usage limits of Perforce Helix. Version 16.1 allows up to five users without commercial licenses. You may continue your current usage with previous versions of our software.\n" } ;
 ErrorId MsgServer::TrackCommand        = { ErrorOf( ES_SERVER, 57, E_INFO, EV_NONE, 2 ), "%command%\n%text%" } ;
-ErrorId MsgServer::NoValidLicense      = { ErrorOf( ES_SERVER, 58, E_FAILED, EV_ADMIN, 0 ), "Must shutdown unlicensed server to add license." } ;
 ErrorId MsgServer::MaxLicensedFiles    = { ErrorOf( ES_SERVER, 463, E_FAILED, EV_ADMIN, 1 ), "Maximum licensed files (%files%) exceeded." } ;
 ErrorId MsgServer::MaxUnLicensedFiles  = { ErrorOf( ES_SERVER, 464, E_FAILED, EV_ADMIN, 1 ), "Maximum users/clients AND maximum files (%files%) exceeded." } ;
 ErrorId MsgServer::NoCentralLicense    = { ErrorOf( ES_SERVER, 472, E_FAILED, EV_ADMIN, 0 ), "Unlicensed server cannot perform remote authentication." } ;
@@ -754,6 +753,8 @@ ErrorId MsgServer::LdapNoSearchConfig  = { ErrorOf( ES_SERVER, 841, E_FAILED, EV
 ErrorId MsgServer::LdapNoAttrConfig    = { ErrorOf( ES_SERVER, 842, E_FAILED, EV_ILLEGAL, 0 ), "User attribute information missing from LDAP configuration!" } ;
 ErrorId MsgServer::LdapNoAttrsFound    = { ErrorOf( ES_SERVER, 843, E_WARN, EV_NONE, 0 ), "None of the specified attributes were found!" };
 
+ErrorId MsgServer::LicenceInputOnly    = { ErrorOf( ES_SERVER, 870, E_FAILED, EV_USAGE, 0 ), "Only '%'p4 license -i'%' and '%'p4 license -u'%' may be used until a license is installed." };
+
 ErrorId MsgServer::SwitchBranchData    = { ErrorOf( ES_SERVER, 754, E_INFO, EV_NONE, 1 ), "%branch%" } ;
 ErrorId MsgServer::SwitchBranchDataMatch = { ErrorOf( ES_SERVER, 755, E_INFO, EV_NONE, 1 ), "%branch% *" } ;
 ErrorId MsgServer::SwitchFilesOpen     = { ErrorOf( ES_SERVER, 756, E_FAILED, EV_USAGE, 0 ), "Can't switch while files are open in a numbered changelist; '%'p4 revert'%' files or '%'p4 reopen'%' files into the default changelist" } ;
@@ -833,3 +834,4 @@ ErrorId MsgServer::FetchCryptoError    = { ErrorOf( ES_SERVER, 793, E_WARN, EV_U
 // DEPRECATED - use CommandRunning instead
 ErrorId MsgServer::PullCommandRunning  = { ErrorOf( ES_SERVER, 656, E_FAILED, EV_USAGE, 0 ), "A pull command is already running in this server." } ;
 ErrorId MsgServer::JcopyCommandRunning = { ErrorOf( ES_SERVER, 737, E_FAILED, EV_USAGE, 0 ), "A journalcopy command is already running in this server." } ;
+ErrorId MsgServer::NoValidLicense      = { ErrorOf( ES_SERVER, 58, E_FAILED, EV_ADMIN, 0 ), "Must shutdown unlicensed server to add license." } ; // DEPRECATED //NOTRANS

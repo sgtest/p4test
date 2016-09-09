@@ -197,6 +197,7 @@ SpecData::Comment( SpecElem *sd, int x, char **wv, int nl, Error *e )
 
 SpecDataTable::SpecDataTable( StrDict *dict )
 {
+	empty.Clear();
 	if( dict )
 	{
 	    table = dict;
@@ -220,10 +221,34 @@ SpecDataTable::GetLine( SpecElem *sd, int x, const char **cmt )
 {
 	*cmt = 0;
 
+	StrPtr *l, *c;
+	StrBuf cTag = sd->tag;
+	cTag << "Comment";
+
 	if( sd->IsList() )
-	    return table->GetVar( sd->tag, x );
+	    l = table->GetVar( sd->tag, x );
 	else
-	    return table->GetVar( sd->tag );
+	    l = table->GetVar( sd->tag );
+
+	if( !l )
+	    return 0;
+
+	if( sd->IsList() )
+	    c = table->GetVar( cTag, x );
+	else
+	    c = table->GetVar( cTag );
+
+	if( c && c->Length() )
+	{
+	    // We store and send the comments with the hashes, but then append
+	    // them during form formatting: got to strip the off now.
+
+	    *cmt = c->Text();
+	    while( **cmt == '#' )
+	        *cmt = *cmt + 1;
+	}
+
+	return l;
 }
 
 void
@@ -242,7 +267,10 @@ SpecDataTable::SetComment( SpecElem *sd, int x, const StrPtr *val, int nl, Error
 	name << sd->tag << "Comment";
 
 	if( sd->IsList() )
+	{
 	    table->SetVar( name, x - (nl ? 0 : 1), *val );
+	    table->SetVar( sd->tag, x, empty );
+	}
 	else
 	    table->SetVar( name, *val );
 }

@@ -47,7 +47,7 @@ StrPtrLineReader::CountLines()
 	int numLines = 1;
 
 	for( const char *p = start; *p; p++ )
-	    if( *p == '\n' )
+	    if( *p == '\n' && p[1] != '\0' )
 	        numLines++;
 
 	return numLines;

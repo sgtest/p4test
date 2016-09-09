@@ -229,6 +229,7 @@ class ServerHelperApi
 
 	// Generic Getters/Setters
 	int		SetDvcsDir( const char *c, Error *e );
+	void		SetServerExecutable( const char *c );
 	int		SetPort( const char *c, Error *e );
 	void		SetUser( const char *c );
 	void		SetClient( const char *c );
@@ -237,6 +238,7 @@ class ServerHelperApi
 	void		SetVersion( const char *c );
 	
 	int		SetDvcsDir( const StrPtr *c, Error *e );
+	void		SetServerExecutable( const StrPtr *c );
 	int		SetPort( const StrPtr *c, Error *e );
 	void		SetUser( const StrPtr *c );
 	void		SetClient( const StrPtr *c );
@@ -245,6 +247,7 @@ class ServerHelperApi
 	void		SetVersion( const StrPtr *c );
 	
 	const StrPtr	&GetDvcsDir();
+	const StrPtr	&GetServerExecutable();
 	const StrPtr	&GetPort();
 	const StrPtr	&GetUser();
 	const StrPtr	&GetClient();

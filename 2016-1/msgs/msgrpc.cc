@@ -22,7 +22,7 @@
  * When adding a new error make sure its greater than the current high
  * value and update the following number:
  *
- * Current high value for a MsgRpc error code is: 74
+ * Current high value for a MsgRpc error code is: 75
  * 03/01/12 - main high value : 49,  nimble (2012.2) start at 60
  */
 
@@ -34,6 +34,7 @@ ErrorId MsgRpc::Closed                 = { ErrorOf( ES_RPC, 1, E_FAILED, EV_COMM
 ErrorId MsgRpc::Listen                 = { ErrorOf( ES_RPC, 3, E_FAILED, EV_COMM, 1 ), "Listen %address% failed." } ;
 ErrorId MsgRpc::NoPoss                 = { ErrorOf( ES_RPC, 5, E_FAILED, EV_COMM, 0 ), "Required positional parameter missing." } ;
 ErrorId MsgRpc::NotP4                  = { ErrorOf( ES_RPC, 6, E_FAILED, EV_COMM, 0 ), "RpcTransport: partner is not a Perforce client/server." } ;
+ErrorId MsgRpc::BadOrder               = { ErrorOf( ES_RPC, 74, E_FATAL, EV_COMM, 0 ), "Rpc: partner violated message ordering rules for %func%." } ;
 ErrorId MsgRpc::Operat                 = { ErrorOf( ES_RPC, 7, E_FAILED, EV_COMM, 1 ), "Operation '%operation%' failed." } ;
 ErrorId MsgRpc::Read                   = { ErrorOf( ES_RPC, 8, E_FAILED, EV_COMM, 0 ), "RpcTransport: partial message read" } ;
 ErrorId MsgRpc::Select                 = { ErrorOf( ES_RPC, 61, E_FAILED, EV_COMM, 1 ), "Select call failed with error: %error%." } ;

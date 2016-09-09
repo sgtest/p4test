@@ -4,7 +4,10 @@
  * This file is part of Perforce - the FAST SCM System.
  */
 
+# define NEED_QUOTE
+
 # include <stdhdrs.h>
+# include <charman.h>
 
 # include <debug.h>
 # include <strbuf.h>
@@ -845,7 +848,7 @@ CommandTransformation::Compile( Error *e )
 
 	maxVec = 100;
 	vec = new char *[ maxVec ];
-	actual = StrOps::Words( wordsBuf, text.Text(), vec, maxVec );
+	actual = Words( wordsBuf, text.Text(), vec, maxVec );
 
 	if( actual >= maxVec )
 	    e->Set( MsgClient::AliasTooComplex ) << text << StrNum( maxVec );
@@ -878,6 +881,46 @@ CommandTransformation::Compile( Error *e )
 	CompileSpecialOperators( e );
 	if( e->Test() )
 	    return;
+}
+
+// Like StrOps::Words, but with slightly different quotes handling
+int
+CommandTransformation::Words(
+	StrBuf &tmp,
+	const char *buf,
+	char *vec[],
+	int maxVec )
+{
+	tmp.Clear();
+	tmp.Alloc( strlen( buf ) + 1 );
+	tmp.Clear();
+
+	int count = 0;
+
+	while( count < maxVec )
+	{
+	    while( isAspace( buf ) ) buf++;
+	    if( !*buf ) break;
+
+	    vec[ count++ ] = tmp.End();
+
+	    int quote = 0;
+
+	    for( ; *buf; ++buf )
+	    {
+		if( quote && buf[0] == '"' && buf[1] == '"' )
+		    tmp.Extend( buf[0] ), ++buf;
+		else if( buf[0] == '"' )
+		    quote = !quote;
+		else if( quote || !isAspace( buf ) )
+		    tmp.Extend( buf[0] );
+		else break;
+	    }
+
+	    tmp.Extend( '\0' );
+	}
+
+        return count;
 }
 
 void
@@ -1208,7 +1251,8 @@ ClientCommand::SplitArgs( Error *e )
 	{
 	    StrPtrLineReader splr( &w_args[ ac ] );
 	    int linesInArg = splr.CountLines();
-	    additionsNeeded += ( linesInArg - 1 );
+	    if( linesInArg )
+	        additionsNeeded += ( linesInArg - 1 );
 	}
 	if( additionsNeeded )
 	{
@@ -1644,9 +1688,12 @@ ClientUserStrBuf::Message( Error *err )
 void
 ClientUserStrBuf::OutputStat( StrDict *dict )
 {
-	if( !format.Length() )
+	if( !format.Length() && dict )
 	{
-	    ClientUserMunge::OutputStat( dict );
+	    if( dict->GetVar( "specdef" ) )
+	        ClientUserMunge::OutputStat( dict );
+	    else
+	        ClientUser::OutputStat( dict );
 	    return;
 	}
 
@@ -1722,6 +1769,8 @@ OperatorP4Subst::Substitute(
 	if( e->Test() )
 	    return;
 
+	int ln = 1, lnCount = splr->CountLines();
+
 	while( splr->GetLine( &line ) )
 	{
 	    if( matcher.matches( line.Text(), e ) )
@@ -1729,7 +1778,8 @@ OperatorP4Subst::Substitute(
 	    else
 	        result.Set( line );
 	    
-	    result << "\n";
+	    if( ln++ < lnCount )
+	        result << "\n";
 
 	    ui->OutputInfo( 0, result.Text() );
 	}

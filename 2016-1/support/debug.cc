@@ -167,6 +167,7 @@ P4Tunable::tunable P4Tunable::list[] = {
 	"dm.batch.domains",	0,	0,	R1K,	RBIG,	1,	R1K, 0,
 	"dm.changes.thresh1",	0,	R50K,	1,	RBIG,	1,	R1K, 0,
 	"dm.changes.thresh2",	0,	R10K,	1,	RBIG,	1,	R1K, 0,
+	"dm.changeview.openable", 0,	0,	0,	1,	1,	1, 0,
 	"dm.copy.movewarn",	0,	0,	0,	1,	1,	1, 0,
 	"dm.domain.accessupdate", 0,	300,	1,	RBIG,	1,	1, 0,
 	"dm.domain.accessforce", 0,	3600,	1,	RBIG,	1,	1, 0,
@@ -301,6 +302,7 @@ P4Tunable::tunable P4Tunable::list[] = {
 	"server.global.client.views",
 	                        0,	0,	0,	1,	1,	1, 0,
 	"server.maxcommands", 	0,	0,	0,	RBIG,	1,	R1K, 0,
+	"server.start.unlicensed", 0,	0,	0,	1,	1,	1, 0,
 	"filetype.bypasslock",	0,	0,	0,	1,	1,	1, 0,
 	"filetype.maxtextsize",	0,	B10M,	0,	RBIG,	1,	R1K, 0,
 	"spec.hashbuckets",	0,	99,	0,	999,	1,	1, 0,
@@ -317,6 +319,7 @@ P4Tunable::tunable P4Tunable::list[] = {
 	"sys.memory.procgrowinc",0,	SHGROW2,0,	BBIG,	1,	B1K, 0,
 	"sys.memory.subpools",	0,	SHSUBP,	0,	BBIG,	1,	B1K, 0,
 	"sys.memory.limit",	0,	0,	0,	BBIG,	1,	B1K, 0, 
+	"sys.memory.debug",	0,	0,	0,	1,	1,	1, 0,
 	"cmd.memory.poolfree",	0,	0,	0,	BBIG,	1,	B1K, 0,
 	"cmd.memory.procfree",	0,	0,	0,	BBIG,	1,	B1K, 0,
 	"cmd.memory.limit",	0,	0,	0,	BBIG,	1,	B1K, 0, 
@@ -335,6 +338,8 @@ P4Tunable::tunable P4Tunable::list[] = {
 	"ssl.client.timeout",	0,	30,	1,	RBIG,	1,	1, 0,
 	"triggers.io",		0,	0,	0,	1,	1,	1, 0,
 	"istat.mimic.ichanges",	0,	0,	0,	1,	1,	1, 0,
+	"info.p4auth.usercheck",0,	1,	0,	1,	1,	1, 0,
+	"auth.autologinprompt", 0,	1,	0,	1,	1,	1, 0,
 
 	0, 0, 0, 0, 0, 0, 0, 0
 

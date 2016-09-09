@@ -25,6 +25,12 @@ class MapItem {
 			    mapFlag = f;
 			    chain = c;
 			    slot = s;
+			    halves[0].left = 0;
+			    halves[0].center = 0;
+			    halves[0].right = 0;
+			    halves[1].left = 0;
+			    halves[1].center = 0;
+			    halves[1].right = 0;
 			}
 
 	MapHalf *	Lhs() { return Half( LHS ); }
@@ -208,6 +214,7 @@ class MapItemArray : public VarArray {
 	MapItem *	Get( int i );
 	StrPtr  *	GetTranslation( int i );
 	MapItem *	Put( MapItem *i, StrPtr *t = 0 );
+	int		PutTree( MapItem *i, MapTableT dir );
 	void		Dump( const char *name );
 };
 

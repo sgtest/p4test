@@ -68,6 +68,7 @@ ServerHelper::ServerHelper( Error *e )
 
 	config.Set( INIT_CONFIG );
 	ignore.Set( INIT_IGNORE );
+	serverExe.Set( INIT_P4DEXE );
 
 	version.Clear();
 	prog.Set( "p4api" );
@@ -680,12 +681,13 @@ ServerHelper::WriteConfig( Error *e )
 	    "P4USER=" ), e );
 	fsys->Write( p4user, e );
 
-# ifdef OS_NT
-	fsys->Write( StrRef( "\nP4PORT=rsh:p4d.exe -i " ), e );
-# else
-	fsys->Write( StrRef(
-	    "\nP4PORT=rsh:/bin/sh -c \"umask 077 && exec p4d -i " ), e );
+	fsys->Write( StrRef( "\nP4PORT=rsh:" ), e );
+# ifndef OS_NT
+	fsys->Write( StrRef( "/bin/sh -c \"umask 077 && exec " ), e );
 # endif
+	fsys->Write( serverExe, e );
+	fsys->Write( StrRef( " -i " ), e );
+
 	if( debug.Length() ) { fsys->Write( StrRef( "-v" ), e );
 	                       fsys->Write( debug, e ); }
 	                else { fsys->Write( StrRef( "-J off" ), e ); }
@@ -723,7 +725,7 @@ ServerHelper::CreateLocalServer( ClientUser *ui, Error *e )
 	// Move to the .p4root directory
 	curdir->SetLocal( dir, StrRef( INIT_ROOT ) );
 
-	ra << "p4d";
+	ra << serverExe;
 
 	// Handle unicode
 	if( unicode ) ra << "-xn";
@@ -738,6 +740,7 @@ ServerHelper::CreateLocalServer( ClientUser *ui, Error *e )
 
 	// quiet
 	ra << "-q";
+	ra << "-Joff";
 
 	curdir->SetLocal( *curdir, StrRef( "file" ) );
 	fsys->Set( *curdir );

@@ -543,6 +543,21 @@ MapItemArray::Put( MapItem *item, StrPtr *trans )
 	return item;
 }
 
+int
+MapItemArray::PutTree( MapItem *item, MapTableT dir )
+{
+	if( !item )
+	    return 0;
+
+	Put( item );
+	int count = 1;
+	count += PutTree( item->Whole( dir )->left, dir );
+	count += PutTree( item->Whole( dir )->center, dir );
+	count += PutTree( item->Whole( dir )->right, dir );
+
+	return count;
+}
+
 void
 MapItemArray::Dump( const char *name )
 {

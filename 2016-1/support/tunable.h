@@ -36,6 +36,7 @@ enum P4TunableName {
 	P4TUNE_DM_BATCH_DOMAINS,		// see dmdomains.cc
 	P4TUNE_DM_CHANGES_THRESH1,		// set dmchanges.cc
 	P4TUNE_DM_CHANGES_THRESH2,		// set dmchanges.cc
+	P4TUNE_DM_CHANGEVIEW_OPENABLE,		// see dmlimit.cc
 	P4TUNE_DM_COPY_MOVEWARN,
 	P4TUNE_DM_DOMAIN_ACCESSUPDATE,		// see dmadomain.cc
 	P4TUNE_DM_DOMAIN_ACCESSFORCE,		// see dmadomain.cc
@@ -169,6 +170,7 @@ enum P4TunableName {
 	P4TUNE_SERVER_ALLOWREWRITE,		// DVCS feature enabling
 	P4TUNE_SERVER_GLOBAL_CLIENT_VIEWS,	// see dmr/dmrprobe.cc
 	P4TUNE_SERVER_MAXCOMMANDS,		// see rhmain.cc
+	P4TUNE_SERVER_START_UNLICENSED,		// see rhmain.cc
 	P4TUNE_FILETYPE_BYPASSLOCK,		// see useropen.cc
 	P4TUNE_FILETYPE_MAXTEXTSIZE,		// set useropen.cc
 	P4TUNE_SPEC_HASHBUCKETS,		// see rhspecmgr.cc
@@ -185,6 +187,7 @@ enum P4TunableName {
 	P4TUNE_SYS_MEMORY_PROCGROWINC,		// see shhandler.cc
 	P4TUNE_SYS_MEMORY_SUBPOOLS,		// see shhandler.cc
 	P4TUNE_SYS_MEMORY_LIMIT,		// see shhandler.cc
+	P4TUNE_SYS_MEMORY_DEBUG,		// see shhandler.cc
 	P4TUNE_CMD_MEMORY_POOLFREE,		// see shhandler.cc
 	P4TUNE_CMD_MEMORY_PROCFREE,		// see shhandler.cc
 	P4TUNE_CMD_MEMORY_LIMIT,		// see shhandler.cc
@@ -203,6 +206,8 @@ enum P4TunableName {
 	P4TUNE_SSL_CLIENT_TIMEOUT,		// see netssltransport.cc
 	P4TUNE_TRIGGERS_IO,			// see rhtrigger.cc
 	P4TUNE_ISTAT_MIMIC_ICHANGES,		// see dmistat.cc & DIOR_SPLIT
+	P4TUNE_INFO_P4AUTH_USERCHECK,		// see userinfo.cc
+	P4TUNE_AUTH_AUTOLOGIN,			// see rhservice.cc
 
 	P4TUNE_LAST
 

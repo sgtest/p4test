@@ -516,6 +516,8 @@ Options::OptionInfo Options::list[] = {
 	                      &MsgSupp::OptionAliases,
 	"field",              Options::Field, 0, ':',
                               &MsgSupp::OptionField,
+	"license-info",       Options::LicenseInfo, 0, 0,
+	                      &MsgSupp::OptionLicenseInfo,
 
 	0, 0, 0, 0, 0
 } ;

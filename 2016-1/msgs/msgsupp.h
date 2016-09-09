@@ -291,6 +291,7 @@ class MsgSupp {
 	static ErrorId OptionField;
 	static ErrorId OptionTab;
 	static ErrorId OptionForceDelete;
+	static ErrorId OptionLicenseInfo;
 
 	static ErrorId TooManyLockTrys;
 

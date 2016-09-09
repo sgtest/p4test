@@ -300,6 +300,7 @@ class Options
 			P4UserUser     , // --me
 			Aliases        , // --aliases
 			Field          , // --field
+	                LicenseInfo,
 
 			UnusedLastOption
 	} ;

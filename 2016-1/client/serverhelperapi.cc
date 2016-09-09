@@ -201,6 +201,12 @@ ServerHelperApi::SetDvcsDir( const char *dir, Error *e )
 	    return SetDvcsDir( (StrPtr *) 0, e );
 }
 
+void
+ServerHelperApi::SetServerExecutable( const char *c )
+{
+	server->SetServerExecutable( c );
+}
+
 int
 ServerHelperApi::SetPort( const char *port, Error *e )
 {
@@ -260,6 +266,12 @@ ServerHelperApi::SetDvcsDir( const StrPtr *c, Error *e )
 	return 1;
 }
 
+void
+ServerHelperApi::SetServerExecutable( const StrPtr *c )
+{
+	server->SetServerExecutable( c );
+}
+
 int
 ServerHelperApi::SetPort( const StrPtr *c, Error *e )
 {
@@ -311,6 +323,12 @@ const StrPtr &
 ServerHelperApi::GetDvcsDir()
 {
 	return server->GetDvcsDir();
+}
+
+const StrPtr &
+ServerHelperApi::GetServerExecutable()
+{
+	return server->GetServerExecutable();
 }
 
 const StrPtr &

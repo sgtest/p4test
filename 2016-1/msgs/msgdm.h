@@ -587,6 +587,7 @@ class MsgDm {
 	static ErrorId ProtectsMaxData;
 	static ErrorId ProtectsEmpty;
 	static ErrorId ProtectsNoSuper;
+	static ErrorId ProtectsNotCompatible;
 
 	static ErrorId PurgeSnapData;
 	static ErrorId PurgeDeleted;

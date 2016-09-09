@@ -55,7 +55,8 @@ IsDebuggerPresent()
 # ifdef MEM_DEBUG
 	return 1;
 # else
-	return 0;
+	// This tunable is only for Linux, "sys.memory.debug".
+	return p4tunable.Get( P4TUNE_SYS_MEMORY_DEBUG );
 # endif
 }
 
@@ -75,12 +76,13 @@ SHHandleError(
     MEM_ERROR_INFO *errorInfo
     )
 {
+	char msg[128];
+
 # ifdef OS_NT
 	// On Windows, we catch Smart Heap errors.
+	//
 	if( IsDebuggerPresent() )
 	{
-	    char msg[128];
-
 	    // Post the Smart Heap Error address to p4diag.
 	    // P4diag will read the structure from process memory
 	    // and display pertinent information.
@@ -94,16 +96,14 @@ SHHandleError(
 	    DebugBreak();
 # endif // HAVE_DBGBREAK
 	}
-# else // OS_NT
-	// On Linux, for now just report the address of errorinfo.
-	// We will not arrive here, below we set SH output to stderr.
-	// This is here in case some future development allows us to
-	// do the in depth reporting we have on Windows.  P4diag reads
-	// the structure in process memory and reports the error.
+# else
+	// On Linux just report the SH errorCode.
 	//
-	char msg[128];
-	sprintf (msg, "display MEM_ERROR_INFO: 0x%p\n", errorInfo);
-	OutputDebugString(msg);
+	if( IsDebuggerPresent() )
+	{
+	    sprintf (msg, "display MEM_ERROR_CODE: 0x%x\n", errorInfo->errorCode);
+	    OutputDebugString(msg);
+	}
 # endif // OS_NT
 
 	return (0);
@@ -127,10 +127,13 @@ SHHandler::SHHandler()
 	cur_ckpt = 1;
 	max_ckpt = 1;
 
-# ifndef OS_LINUX
+# ifdef OS_NT
 	// On Linux let Smart Heap format the error message.
 	if( MemSetErrorHandler( SHHandleError ) == NULL)
 	    OutputDebugString ("note: MemSetErrorHandler(): failed.\n");
+# else
+	// On Linux we can not do error output in the constructor.
+	MemSetErrorHandler( SHHandleError );
 # endif
 
 	MemRegisterTask();
@@ -161,17 +164,17 @@ SHHandler::SHHandler()
 	dbgMemSetDeferSizeThreshold( (MEM_SIZET)ULONG_MAX-1 );
 # endif
 # ifdef OS_NT
-	// On Windows, output goes to the debug console.
+	// On Windows, Debug Smart Heap output goes to the debug console.
 	// Use p4diag to view these messages.
-	dbgMemSetDefaultErrorOutput( DBGMEM_OUTPUT_CONSOLE, NULL);
-# else
-	// On Linux, Smart Heap output goes to stderr.
 	if( !dbgMemSetDefaultErrorOutput( DBGMEM_OUTPUT_CONSOLE, NULL))
 	    OutputDebugString ("note: dbgMemSetDefaultErrorOutput(): failed.\n");
+# else // Linux
+	// On Linux, Debug Smart Heap output goes to stderr.
+	// On Linux we can not do error output in the constructor.
+	dbgMemSetDefaultErrorOutput( DBGMEM_OUTPUT_CONSOLE, NULL);
 # endif // OS_NT
 # endif // SMARTHEAP_CHECKS
 
-// XYZ try this on Linux
 # ifdef OS_NT
 	InitializeCriticalSection( &section );
 
@@ -245,10 +248,18 @@ SHHandler::SetTunable(
 	MEM_SIZET membytes = 0;
 	MEM_SIZET prevbytes = 0;
 
+# ifdef OS_NT
 	// A value of 0 is only allowed for poolgrowinc.
 	//
 	if( *value == 0 && index != P4TUNE_SYS_MEMORY_POOLGROWINC )
 	    return;
+# else
+	// No values of 0 allowed on Linux.
+	// Revisit this if we move to SH 11.0 on Linux.
+	//
+	if( *value == 0 )
+	    return;
+# endif
 
 	membytes = (MEM_SIZET)*value;
 

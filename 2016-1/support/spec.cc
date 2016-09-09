@@ -333,6 +333,11 @@ Spec::Format( SpecData *data, StrBuf *s )
 		    // (1) Single line ( v->Length() == 0 )
 		    // (2) Appended ( v->Length() > 0 && fmt:C )
 
+		    while( v && !c && !v->Length() )
+		        v = data->GetLine( d, ++j, &c );
+		    if( !v )
+		        break;
+
 		    *s << "\t" << v;
 
 		    if( c && v->Length() && ( d->fmt == SDF_COMMENT ) )

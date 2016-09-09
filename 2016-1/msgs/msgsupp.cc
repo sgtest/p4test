@@ -22,7 +22,7 @@
  * When adding a new error make sure its greater than the current high
  * value and update the following number:
  *
- * Current high value for a MsgSupp error code is: 277
+ * Current high value for a MsgSupp error code is: 284
  */
 
 # include <error.h>
@@ -308,6 +308,7 @@ ErrorId MsgSupp::OptionAliases            = { ErrorOf( ES_SUPP, 273, E_INFO, EV_
 ErrorId MsgSupp::OptionField		  = { ErrorOf( ES_SUPP, 274, E_INFO, EV_NONE, 0 ), "%'--field'%: Modify spec fields from the command line." } ;
 ErrorId MsgSupp::OptionTab                = { ErrorOf( ES_SUPP, 275, E_INFO, EV_NONE, 0 ), "%'--tab[=N] (-T)'%: Align output to tab stops." } ;
 ErrorId MsgSupp::OptionForceDelete                = { ErrorOf( ES_SUPP, 277, E_INFO, EV_NONE, 0 ), "%'--force-delete'%: delete entity from protects and groups." } ;
+ErrorId MsgSupp::OptionLicenseInfo        = { ErrorOf( ES_SUPP, 284, E_INFO, EV_NONE, 0 ), "%'--license-info'%: report license status information." } ;
 
 ErrorId MsgSupp::TooManyLockTrys	  = { ErrorOf( ES_SUPP, 268, E_FATAL, EV_FAULT, 1 ), "Too many trys to get lock %file%." } ;
 

@@ -27,6 +27,7 @@ class MsgRpc {
 	static ErrorId Listen;
 	static ErrorId NoPoss;
 	static ErrorId NotP4;
+	static ErrorId BadOrder;
 	static ErrorId Operat;
 	static ErrorId Read;
 	static ErrorId Select;

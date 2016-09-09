@@ -12,7 +12,7 @@
  * See the Perforce C/C++ API User's Guide at
  * www.perforce.com/perforce/technical.html for further information.
  *
- * $Id: //depot/dev/ecosystem/p4_20161/api/p4api.cc#1 $
+ * $Id: //depot/r16.1/p4/api/p4api.cc#1 $
  */
 
 # include "clientapi.h"

@@ -235,6 +235,9 @@ class CommandTransformation
 
 	void		CompileSpecialOperators( Error *e );
 
+	static int	Words( StrBuf &tmp, const char *w, 
+				char *vec[], int maxVec );
+
 	StrBuf		text;
 
 	StrBuf		wordsBuf;

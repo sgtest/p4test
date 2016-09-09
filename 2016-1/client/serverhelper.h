@@ -7,9 +7,11 @@
 # ifdef OS_NT
 # define INIT_CONFIG "p4config.txt"
 # define INIT_IGNORE "p4ignore.txt"
+# define INIT_P4DEXE "p4d.exe"
 # else
 # define INIT_CONFIG ".p4config"
 # define INIT_IGNORE ".p4ignore"
+# define INIT_P4DEXE "p4d"
 # endif
 
 # define INIT_ROOT ".p4root"
@@ -82,6 +84,12 @@ class ServerHelper : public ClientUserProgress
 	void		SetVersion( const char *v )   { version.Set( v ); }
 	void		SetVersion( const StrPtr *v ) { version.Set( v ); }
 	
+	StrPtr		&GetServerExecutable()        { return serverExe; }
+	void		SetServerExecutable( const char *u )
+			                              { serverExe.Set( u ); }
+	void		SetServerExecutable( const StrPtr *u )
+			                              { serverExe.Set( u ); }
+	
 	int		GetQuiet()                    { return quiet; }
 	void		SetQuiet()                    { quiet = 1; }
 	void		DoDebug( StrPtr *v )          { debug.Set( v ); }
@@ -148,6 +156,7 @@ class ServerHelper : public ClientUserProgress
 	StrBuf		pwd;
 	StrBuf		dir;
 	StrBuf		p4port;
+	StrBuf		serverExe;
 	StrBuf		defaultStream;
 	int		defaultStreamChanged;
 

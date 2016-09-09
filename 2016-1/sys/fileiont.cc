@@ -1251,13 +1251,33 @@ FileIO::Rename( FileSys *target, Error *e )
 void
 FileIO::Unlink( Error *e )
 {
-	// yeech - must be writable to remove
-
 	if( *Name() )
+	{
+	    // yeech - must be writable to remove
 	    nt_chmod( Path(), PERM_0666  & ~global_umask, DOUNICODE, LFN );
 
-	if( *Name() && nt_unlink( Path(), DOUNICODE, LFN ) < 0 && e )
-	    e->Sys( "unlink", Name() );
+	    if( nt_unlink( Path(), DOUNICODE, LFN ) < 0)
+	    {
+		// Special handling for momentarily busy executable file.
+		// All other errors will not invoke retries.
+		if( errno == EACCES )
+		{
+		    int renameMax  = p4tunable.Get( P4TUNE_SYS_RENAME_MAX );
+		    int renameWait = p4tunable.Get( P4TUNE_SYS_RENAME_WAIT );
+
+		    for( int i=0; i < renameMax; ++i )
+		    {
+			msleep( renameWait );
+
+			if( nt_unlink( Path(), DOUNICODE, LFN ) >= 0 )
+			    return;
+		    }
+		}
+
+		if( e && ! e->Test() )
+		    e->Sys( "unlink", Name() );
+	    }
+	}
 }
 
 // Caller must free the memory.
