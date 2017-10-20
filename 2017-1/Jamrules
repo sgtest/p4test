@@ -794,9 +794,12 @@
 	    C++FLAGS += -DNDEBUG ;
 	}
 
-	# Some things don't get built dynamically/statically.
+	# Long ago the dynamic build of p4d was blocked.  Partly as a safety measure
+	# to prevent releasing a dynamic build.  With our automated builds it is
+	# unlikely we need to block TYPE=dyn anymore.  Also doing this type of build
+	# is benificial in testing plugins like P4GT.  Allow TYPE=dyn now.
 
-	if ! $(TYPE_DYNAMIC) || $(OS) != NT { BUILD_P4D ?= true ; }
+	BUILD_P4D ?= true ;
 
 	if [ FVersionCmp $(GCCVER) : 4.2 ] >= 0 { OPTIM += -fwrapv ; }  # see job047026
 
@@ -1338,8 +1341,16 @@
 		C++FLAGS = [ FRemoveAny $(C++FLAGS) : /MT ] ;
 		CCFLAGS  = [ FRemoveAny $(CCFLAGS)  : /MT ] ;
 
-		# Define min windows version supported
-		C++FLAGS += -D_WIN32_WINNT=0x0501 ;
+		if $(TYPE_DYNAMIC)
+		{
+			# Define minimum Windows 7 version for P4GT.
+			C++FLAGS += -D_WIN32_WINNT=0x0601 ;
+		}
+		else
+		{
+			# Define min windows version supported
+			C++FLAGS += -D_WIN32_WINNT=0x0501 ;
+		}
 
 		if $(FULL_PATH_DIAGNOSTICS) = true
 		{
@@ -1409,7 +1420,8 @@
 		}
 
 		# 2008-10-17: static only for now
-		if ! $(TYPE_DYNAMIC) && [ FVersionCmp $(MSVSVER) : 8 ] >= 0
+		# 2017-08-24: allow dyn builds for p4gt.
+		if [ FVersionCmp $(MSVSVER) : 8 ] >= 0
 		{
 			local _dyn ;
 			if $(TYPE_DYNAMIC) = true { _dyn = -dyn ; }
@@ -3028,8 +3040,10 @@
 
 	rule P4GTLinkage
 	{
+		local _def = [ on $(<) return $(DEFFILE) ] ;
 		local _lf = /subsystem:windows
 		            /DLL
+		            /DEF:$(_def)
 		            /INCREMENTAL:NO
 		            /MACHINE:$(OSPLAT:L) ;
 
@@ -3061,7 +3075,6 @@
 	{
 		if [ FVersionCmp $(MSVSVER) : 8 ] >= 0
 		{
-			SubDirC++Flags /Zc:wchar_t- ;
 			WinDefines /GR     : _USRDLL _WINDLL NT_PLUGIN ;
 		} else {
 			WinDefines /GR /GX : _USRDLL _WINDLL NT_PLUGIN ;
@@ -3214,6 +3227,16 @@
 		DEPENDS $(<) : $(>) ;
 	}
 
+	rule WinDllDeffile2
+	{
+		# WinDllDeffile exe : file ; - set /def: file for link
+		# Factor in the sub directory
+
+		SEARCH on $(>) = $(SEARCH_SOURCE) ;
+		DEFFILE on $(<) = $(SUBDIR)$(SLASH)$(>) ;
+		DEPENDS $(<) : $(>) ;
+	}
+
 	rule WinDllLinkage
 	{
 		# WinDllLinkage exe : libs ; - set up link flags windows DLL
@@ -3347,7 +3370,7 @@
 	}
 
 	actions WinRc {
-		rc /fo $(<) $(RCFLAGS) "$(RCHDRS)" $(>)
+		rc /nologo /fo $(<) $(RCFLAGS) "$(RCHDRS)" $(>)
 	}
 
 

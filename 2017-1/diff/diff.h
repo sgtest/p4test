@@ -92,7 +92,7 @@ class DiffFlags {
 
 	enum Type     { Normal, Context, Unified, Rcs, HTML, Summary } type;
 	enum Sequence { Line, Word, DashL, DashB, DashW, WClass } sequence;
-	enum Grid     { Optimal, Guarded, TwoWay } grid;
+	enum Grid     { Optimal, Guarded, TwoWay, Diff3, GuardedDiff3 } grid;
 
 	int		contextCount;
 } ;

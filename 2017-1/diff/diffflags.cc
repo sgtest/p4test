@@ -57,7 +57,14 @@ DiffFlags::Init( const char *flags )
 
 	// grid
 
-	case 'g': case 'G':	grid = Guarded; break;
+	case 'g': case 'G':	if( grid == Diff3 ) grid = GuardedDiff3;
+	                                       else grid = Guarded;
+	                        break;
+
+	case 'x': case 'X':	if( grid == Guarded ) grid = GuardedDiff3;
+	                                         else grid = Diff3;
+	                        break;
+
 	case 't': case 'T':	grid = TwoWay; break;
 
 	// Simple atoi()

@@ -1079,6 +1079,8 @@ clientCheckFile( Client *client, Error *e )
 	StrPtr *scanSize = client->GetVar( P4Tag::v_scanSize );
 	StrPtr *ignore = client->GetVar( P4Tag::v_ignore );
 	StrPtr *checkLinks = client->GetVar( P4Tag::v_checkLinks );
+	StrPtr *checkLinksNs = client->GetVar( P4Tag::v_checkLinksN );
+	const int checkLinksN = checkLinksNs ? checkLinksNs->Atoi() : 0;
 
 	if( e->Test() && !e->IsFatal() )
 	{
@@ -1109,10 +1111,11 @@ clientCheckFile( Client *client, Error *e )
 	    ps->Set( clientPath );
 
 	    // Don't allow opening a file for add if it is a symlink to
-	    // a directory.
+	    // a directory.  job092324 said this was too restrictive, so
+	    // only do it if filesys.checklinks < 3.
 
 	    fs->Set( *ps );
-	    if( fs->Stat() & FSF_SYMLINK )
+	    if( ( fs->Stat() & FSF_SYMLINK ) && checkLinksN < 3 )
 	    {
 		FileSys *fl = new FileIOSymlink;
 		fl->Set( fs->Name() );

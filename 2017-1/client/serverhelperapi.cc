@@ -150,6 +150,12 @@ ServerHelperApi::SetDefaultStream( const StrPtr *s, Error *e )
 }
 
 void
+ServerHelperApi::SetApplication( const StrPtr *a )
+{
+	server->SetApplication( a );
+}
+
+void
 ServerHelperApi::SetDefaultStream( const char *s, Error *e )
 {
 	StrRef stream( s );

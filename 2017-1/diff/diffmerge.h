@@ -104,6 +104,8 @@ class DiffMerge {
 	GridTypes	gridType;
 	int		twoWay;
 	int 		state;
+	int		oldMode;
+	int		diff3behavior;
 
 	/* Base->Yours diff, Base->Theirs diff. */
 

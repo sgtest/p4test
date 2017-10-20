@@ -100,6 +100,8 @@ class ServerHelper : public ClientUserProgress
 	
 	void		SetDefaultStream( const StrPtr *s, Error *e );
 
+	void		SetApplication( const StrPtr *a ){ app.Set( a ); }
+
 	void		SetCaseFlag( const StrPtr *c, Error *e );
 	StrPtr		GetCaseFlag() { return caseFlag; }
 
@@ -169,6 +171,7 @@ class ServerHelper : public ClientUserProgress
 	int		contentTrans;
 	int		fnamesTrans;
 	int		dialogTrans;
+	StrBuf		app;
 
 	// p4 server context
 	StrBuf		pwd;

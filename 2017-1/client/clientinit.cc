@@ -451,6 +451,13 @@ clientInitClone( int ac, char **av, Options &preops, Error *e )
 	if( ( sp = opts['m'] ) )
 	    depth = sp->Atoi();
 
+	// icmanage (-Zapp=icmanage)
+	for( int i = 0; sp = preops.GetValue( 'Z', i ); i++ )
+	{
+	    if( !strncmp( sp->Text(), "app=", 4 ) )
+	        ruser.SetApplication( sp );
+	}
+
 	// Set the username and client
 	// If null pointers are passed, the values come from the envrionment
 	ruser.SetUserClient( preops['u'], preops['c'] );

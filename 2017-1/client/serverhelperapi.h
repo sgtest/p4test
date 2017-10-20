@@ -129,6 +129,9 @@
  *	    will be initialised with; however, this may be overriden a remote
  *	    spec created by MakeRemote() or loaded with LoadRemote().
  *
+ *	ServerHelperApi::SetApplication() - Sets the application name
+ *	    This is required for application based server licensing.
+ *
  *	ServerHelperApi::SetCaseFlag()	- Sets the case sensitivity flag
  *	    This sets the case sensitivity flag used when initialising a new
  *	    Perforce Server. It can be set to '-C0' or '-C1'. The value will be
@@ -219,6 +222,9 @@ class ServerHelperApi
 	// Must be called before CopyConfiguration() and InitLocalServer().
 	void		SetDefaultStream( const char *s, Error *e );
 	void		SetDefaultStream( const StrPtr *s, Error *e );
+
+	// Sets the application (server is licensed only for a single application)
+	void		SetApplication( const StrPtr *a );
 
 	// Alternatives to Discover()
 	void		SetCaseFlag( const StrPtr *c, Error *e );

@@ -249,7 +249,7 @@ NetSslTransport::~NetSslTransport()
 // MS Visual Studio didn't implement snprintf until VS 2015.  Sigh.
 # ifdef _MSC_VER
   #define SNPRINTF1(buf, len, msg, arg1)	sprintf(buf, msg, arg1)
-  #define SNPRINTF2(buf, len, msg, arg1, arg2)	sprintf(buf, msg, arg1)
+  #define SNPRINTF2(buf, len, msg, arg1, arg2)	sprintf(buf, msg, arg1, arg2)
 # else
   #define SNPRINTF1(buf, len, msg, arg1)	snprintf(buf, len, msg, arg1)
   #define SNPRINTF2(buf, len, msg, arg1, arg2)	snprintf(buf, len, msg, arg1, arg2)

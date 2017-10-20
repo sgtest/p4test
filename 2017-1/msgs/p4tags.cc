@@ -99,6 +99,7 @@ const char P4Tag::v_changeType[] = "changeType";
 const char P4Tag::v_charset[] = "charset";
 const char P4Tag::v_checkpoint[] = "checkpoint";
 const char P4Tag::v_checkLinks[] = "checkLinks";
+const char P4Tag::v_checkLinksN[] = "checkLinksN";
 const char P4Tag::v_clientAddress[] = "clientAddress";
 const char P4Tag::v_clientCase[] = "clientCase";
 const char P4Tag::v_clientCwd[] = "clientCwd";

@@ -212,14 +212,21 @@ DiffMerge::DiffMerge(
 	emptyFile = 0;
 	bf = lf1 = lf2 = 0;
 	df1 = df2 = df3 = 0;
+	diff3behavior = 0;
+	oldMode = 0;
 	
 	switch( flags.grid )
 	{
 	case DiffFlags::Optimal:
 	    gridType = GRT_OPTIMAL;
 	    break;
+	case DiffFlags::GuardedDiff3:
+	    diff3behavior = 1;
 	case DiffFlags::Guarded:
 	    gridType = GRT_GUARDED;
+	    break;
+	case DiffFlags::Diff3:
+	    diff3behavior = 1;
 	    break;
 	case DiffFlags::TwoWay:
 	    gridType = GRT_TWOWAY;
@@ -429,6 +436,7 @@ enum Mode {
 	EDIT1, EDIT2,
 	EDITC1, EDITC2,
 	INSX1, INSX2,
+	INSX3, INSX4,
 	INSY1, INSY2,
 	INS12, INSX12, INSY12,
 	INS1, INS2, 
@@ -448,6 +456,7 @@ const char *ModeNames[] = {
 	"EDIT1", "EDIT2",
 	"EDITC1", "EDITC2",
 	"INSX1", "INSX2",
+	"INSX3", "INSX4",
 	"INSY1", "INSY2",
 	"INS12", "INSX12", "INSY12",
 	"INS1", "INS2", 
@@ -532,7 +541,7 @@ const DiffGrid optimalGrid[2][2][2][2][2][2] = {
       CONF,DD_CONF,     INSX1,DD_LEG1,    INSC5,DD_CONF,    BOTH,DD_BOTH,
       INS12,DD_CONF,    INSX12,DD_CONF,   INSY12,DD_CONF,   BOTH,DD_BOTH,
       CONF,DD_CONF,     CONF,DD_CONF,     INSC3,DD_CONF,    INSC3,DD_CONF,
-      INSX1,DD_LEG1,    INSX1,DD_LEG1,    INSC1,DD_CONF,    ALL2,DD_ALL,
+      INSX3,DD_LEG1,    INSX1,DD_LEG1,    INSC1,DD_CONF,    ALL2,DD_ALL,
 
 //    X_   __   __      X_   __   _X      X_   __   X_      X_   __   XX  
 //    X_   _X   __      X_   _X   _X      X_   _X   X_      X_   _X   XX  
@@ -550,7 +559,7 @@ const DiffGrid optimalGrid[2][2][2][2][2][2] = {
 //    XX   XX   __      XX   XX   _X      XX   XX   X_      XX   XX   XX  
 
       EDITC2,DD_CONF,   EDIT2,DD_LEG2,    EDIT2,DD_LEG2,    ALL1,DD_ALL,
-      INSX2,DD_LEG2,    INSC2,DD_CONF,    INSX2,DD_LEG2,    ALL1,DD_ALL,
+      INSX4,DD_LEG2,    INSC2,DD_CONF,    INSX2,DD_LEG2,    ALL1,DD_ALL,
       DEL2,DD_LEG2,     INSC7,DD_CONF,    DEL2,DD_LEG2,     ALL1,DD_ALL,
       ALL,DD_ALL,       ALL,DD_ALL,       ALL,DD_ALL,       ALL,DD_ALL
 } ;
@@ -652,14 +661,22 @@ DiffMerge::DiffDiff()
 	switch( d.mode )
 	{
 	case INSC1:
-	    if( df3->EndL1() > df2->EndBase() )   // trust outer - insert L2
+	    // Trust outer, unless previous mode was INSX3
+	    // and merge is trying to behave more like diff3
+
+	    if( ( oldMode != INSX3 || !diff3behavior ) && 
+	        ( df3->EndL1() > df2->EndBase() ) )
 	    { d.mode = INSY2; d.diffs = DD_LEG2; break; }
 
 	    d.mode = INS1; d.diffs = DD_LEG1;     // trust inner - insert L1
 	    break;
 
 	case INSC2:
-	    if( df3->EndL2() > df1->EndBase() )   // trust outer - insert L2
+	    // Trust outer, unless previous mode was INSX4
+	    // and merge is trying to behave more like diff3
+
+	    if( ( oldMode != INSX4 || !diff3behavior) && 
+	        ( df3->EndL2() > df1->EndBase() ) )
 	    { d.mode = INSY1; d.diffs = DD_LEG1; break; }
 
 	    d.mode = INS2; d.diffs = DD_LEG2;     // trust inner = insert L1
@@ -725,6 +742,8 @@ DiffMerge::DiffDiff()
 	    { d.mode = INSY2; d.diffs = DD_LEG2; }
 	    break;
 	}
+
+	oldMode = d.mode;
 
 	switch( d.mode )
 	{
@@ -799,10 +818,12 @@ DiffMerge::DiffDiff()
 	    break;
 
 	case INSX1:
+	case INSX3:
 	    l1 = dmin( df1->StartLeg(), df3->StartL1() );
 	    break;
 
 	case INSX2:
+	case INSX4:
 	    l2 = dmin( df2->StartLeg(), df3->StartL2() );
 	    break;
 
@@ -911,6 +932,7 @@ DiffMerge::DiffDiff()
 	                               lf2->end != lf2->Lines() ) )
 	{
 	    LineNo ab = 0, a1 = 0, a2 = 0;
+	    oldMode = 0;
 
 	    // Conflict caused by inserting on L1 and L2 can never extend
 	    // the base.
@@ -934,12 +956,14 @@ DiffMerge::DiffDiff()
 	    switch( n.mode )
 	    {
 	    case INSX1: 
+	    case INSX3: 
 	        if( d.mode == INSC7 && extendConflict < 2 )
 	        { d.diffs = DD_LEG2; break; }
 	    case INS1:
 	        a1 = df1->StartLeg();
 	        break;
 	    case INSX2: 
+	    case INSX4: 
 	        if( d.mode == INSC8 && extendConflict < 2 )
 	        { d.diffs = DD_LEG1; break; }
 	    case INS2:

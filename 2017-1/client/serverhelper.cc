@@ -358,6 +358,9 @@ ServerHelper::InitClient( Client *client, int useEnv, Error *e )
 	client->SetProtocol( P4Tag::v_tag );
 	client->SetProtocol( P4Tag::v_enableStreams );
 
+	if( app.Length() )
+	    client->SetProtocolV( app.Text() );
+
 	SetupUnicode( client, e );
 
 	client->SetCwd( &dir );

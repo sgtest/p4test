@@ -115,6 +115,7 @@ struct P4Tag {
 	static const char v_charset[];
 	static const char v_checkpoint[];
 	static const char v_checkLinks[];
+	static const char v_checkLinksN[];
 	static const char v_clientAddress[];
 	static const char v_clientCase[];
 	static const char v_clientCwd[];
