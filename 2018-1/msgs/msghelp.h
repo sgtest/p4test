@@ -239,6 +239,7 @@ class MsgHelp {
 	static ErrorId HelpGraphPackObjects;
 	static ErrorId HelpGraphSubmodule;
 	static ErrorId HelpGraphLsTree;
+	static ErrorId HelpGraphCatFile;
 	static ErrorId HelpGraphUnlock;
 	static ErrorId HelpGraphPrint;
 	static ErrorId HelpGraphResolve;

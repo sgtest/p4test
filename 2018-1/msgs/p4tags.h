@@ -448,6 +448,7 @@ struct P4Tag {
 	static const char v_value[];		// p4 index
 	static const char v_workRec[];
 	static const char v_workRec2[];
+	static const char v_workGRec[];
 	static const char v_yourDepotRec[];	// p4 resolve
 	static const char v_zksEntity[];	// zks socket write flock
 

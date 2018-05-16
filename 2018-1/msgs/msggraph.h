@@ -195,6 +195,8 @@ class MsgGraph {
 	static ErrorId PubKeyDeleteAction;
 	static ErrorId PubKeyNotExist;
 	static ErrorId PubKeyNeedsForce;
+	static ErrorId PubKeySKeyOpt1;
+	static ErrorId PubKeySKeyOpt2;
 	static ErrorId BlobVerified;
 	static ErrorId BlobDamaged;
 	static ErrorId LFSBlobVerified;
@@ -327,6 +329,17 @@ class MsgGraph {
 	static ErrorId DescribeHeader;
 	static ErrorId CommitFileShort;
 	static ErrorId SHANotFound;
+	static ErrorId RepoHasCommit;
+	static ErrorId RepoHasOpened;
+	static ErrorId BranchNotMerged;
+	static ErrorId DefBranchForceDel;
+	static ErrorId Resolve3WayText;
+	static ErrorId SubmitBadState;
+	static ErrorId SubmitBadStateFiles;
+	static ErrorId MergeOutOfView;
+	static ErrorId HaveSpecificNoRev;
+	static ErrorId NotOnReplica;
+
 	// Retired ErrorIds. We need to keep these so that clients
 	// built with newer apis can commnunicate with older servers
 	// still sending these.

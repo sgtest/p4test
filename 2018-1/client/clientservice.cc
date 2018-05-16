@@ -2017,6 +2017,23 @@ clientSendFile( Client *client, Error *e )
 	        client->SetVar( P4Tag::v_status, "same" );
 	        client->SetVar( P4Tag::v_sha, &localDigest );
 	        client->Confirm( confirm );
+	        // We differ from classic here as
+	        // with 'submitunchanged' in the submitoptions set we
+	        // don't send a digest.
+	        if( !e->Test() && perms && revertUnchanged )
+	        {
+	            if( depotTime && ( f->Stat() & FSF_WRITEABLE ) )
+	            {
+	                // Refresh modtime from depot rev, the same
+	                // way clientChmodFile() does
+
+	                f->ModTime( depotTime );
+	                f->ChmodTime( e );
+	            }
+
+	            if( !e->Test() )
+	                f->Chmod2( perms->Text(), e );
+	        }
 	        delete f;
 	        return;
 	    }

@@ -431,6 +431,7 @@ const char P4Tag::v_unloadInterval[] = "unloadInterval";
 const char P4Tag::v_value[] = "value";
 const char P4Tag::v_workRec[] = "workRec";
 const char P4Tag::v_workRec2[] = "workRec2";
+const char P4Tag::v_workGRec[] = "workGRec";
 const char P4Tag::v_yourDepotRec[] = "yourDepotRec";
 const char P4Tag::v_zksEntity[] = "zksEntity";
 
